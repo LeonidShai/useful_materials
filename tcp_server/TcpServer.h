@@ -2,27 +2,34 @@
 #define TCPSERVER_H
 
 #include <QtNetwork>
+#include <TcpConfig.h>
 
-class TcpServer
+class TcpServer : public QObject
 {
 public:
-    TcpServer();
+    TcpServer(QObject* parent = nullptr);
     ~TcpServer();
 
-    void runServer();
-    void stopServer();
+    bool runServer(TcpConfig tcpConfig);
+    bool stopServer();
 
     bool isConnected();
 
 private:
     QTcpServer* _tcpServer;
-    QTcpSocket* _socket;
-
-    void read();
-    void send();
+    QTcpSocket* _socket{nullptr};
 
     bool _serverState;
     bool _connectionState;
+
+private slots:
+    void newClientConnected();
+    void clientDisconnected();
+    void read();
+    void send();
+
+signals:
+    void newConnection();
 };
 
 #endif // TCPSERVER_H
