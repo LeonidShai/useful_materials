@@ -17,9 +17,15 @@ public:
     ~MainWindow();
 
 private slots:
+    void connectionChanged();
+    void showMessage(QByteArray buffer);
+
     void on_pushButton_run_clicked();
     void on_pushButton_stop_clicked();
     void on_pushButton_quit_clicked();
+
+    void on_pushButton_send_clicked();
+    void on_pushButton_clear_clicked();
 
 private:
     Ui::MainWindow* _ui;

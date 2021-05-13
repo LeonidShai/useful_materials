@@ -25,9 +25,13 @@ private:
 
 private slots:
     void connectionState();
+    void showMessage(QByteArray buffer);
+
     void on_pushButton_connect_clicked();
     void on_pushButton_disconnect_clicked();
     void on_pushButton_quit_clicked();
+    void on_pushButton_clear_clicked();
+    void on_pushButton_send_clicked();
 };
 
 #endif // MAINWINDOW_H

@@ -15,6 +15,7 @@ public:
     bool stopServer();
 
     bool isConnected();
+    void send(QString msg);
 
 private:
     QTcpServer* _tcpServer;
@@ -23,14 +24,16 @@ private:
     bool _serverState;
     bool _connectionState;
 
+    QByteArray _buffer;
+
 private slots:
     void newClientConnected();
     void clientDisconnected();
     void read();
-    void send();
 
 signals:
     void newConnection();
+    void readSignal(QByteArray buffer);
 };
 
 #endif // TCPSERVER_H

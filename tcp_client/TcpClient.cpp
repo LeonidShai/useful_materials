@@ -31,9 +31,13 @@ void TcpClient::slotConnected()
 void TcpClient::read()
 {
     qDebug() << "read" << Qt::endl;
+    _buffer = _socket->readAll();
+    qDebug() << _buffer.data() << Qt::endl;
+    emit readSignal(_buffer);
 }
 
-void TcpClient::send()
+void TcpClient::send(QString msg)
 {
     qDebug() << "send" << Qt::endl;
+    _socket->write("hello server");
 }

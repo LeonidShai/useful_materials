@@ -14,16 +14,19 @@ public:
     void connect2Server(TcpConfig tcpConfig);
     void disconnect2Sever();
 
+    void send(QString msg);
+
 private:
     QTcpSocket* _socket;
+    QByteArray _buffer;
 
 private slots:
     void slotConnected();
     void read();
-    void send();
 
 signals:
     void signalConnected();
+    void readSignal(QByteArray buffer);
 };
 
 #endif // TCPCLIENT_H

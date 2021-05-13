@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _ui->lineEdit_serverPort->setText("2323");
 
     connect(_tcpClient, SIGNAL(signalConnected()), this, SLOT(connectionState()));
+    connect(_tcpClient, &TcpClient::readSignal, this, &MainWindow::showMessage);
 }
 
 MainWindow::~MainWindow()
@@ -32,6 +33,12 @@ void MainWindow::connectionState()
     }
 }
 
+void MainWindow::showMessage(QByteArray buffer)
+{
+    QString msg = buffer.data();
+    _ui->label_msg->setText(msg);
+}
+
 void MainWindow::on_pushButton_connect_clicked()
 {
     QString serverAddress = _ui->lineEdit_serverAddress->text();
@@ -44,10 +51,21 @@ void MainWindow::on_pushButton_connect_clicked()
 
 void MainWindow::on_pushButton_disconnect_clicked()
 {
-
+    _tcpClient->disconnect2Sever();
 }
 
 void MainWindow::on_pushButton_quit_clicked()
 {
     this->close();
+}
+
+void MainWindow::on_pushButton_clear_clicked()
+{
+    _ui->label_msg->clear();
+}
+
+void MainWindow::on_pushButton_send_clicked()
+{
+    QString msg = _ui->lineEdit_msg->text();
+    _tcpClient->send(msg);
 }

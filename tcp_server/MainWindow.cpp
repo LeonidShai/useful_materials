@@ -10,12 +10,30 @@ MainWindow::MainWindow(QWidget *parent):
 
     _ui->lineEdit_listenAddress->setText("localhost");
     _ui->lineEdit_port->setText("2323");
+
+    connect(_tcpServer, SIGNAL(newConnection()), this, SLOT(connectionChanged()));
+    connect(_tcpServer, &TcpServer::readSignal, this, &MainWindow::showMessage);
 }
 
 MainWindow::~MainWindow()
 {
     delete _tcpServer;
     delete _ui;
+}
+
+void MainWindow::connectionChanged()
+{
+    if(_tcpServer->isConnected()){
+        _ui->label_connectionState->setText("new client connected");
+    } else {
+        _ui->label_connectionState->setText("client disconnected");
+    }
+}
+
+void MainWindow::showMessage(QByteArray buffer)
+{
+    QString msg = buffer.data();
+    _ui->label_msg->setText(msg);
 }
 
 void MainWindow::on_pushButton_run_clicked()
@@ -46,4 +64,16 @@ void MainWindow::on_pushButton_stop_clicked()
 void MainWindow::on_pushButton_quit_clicked()
 {
     this->close();
+}
+
+void MainWindow::on_pushButton_send_clicked()
+{
+    QString msg = _ui->lineEdit_msg->text();
+    _ui->lineEdit_msg->clear();
+    _tcpServer->send(msg);
+}
+
+void MainWindow::on_pushButton_clear_clicked()
+{
+    _ui->label_msg->clear();
 }

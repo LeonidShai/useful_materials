@@ -1,4 +1,5 @@
 #include "TcpServer.h"
+#include <QDebug>
 
 TcpServer::TcpServer(QObject* parent) : QObject(parent)
 {
@@ -42,20 +43,27 @@ void TcpServer::newClientConnected()
     _socket = _tcpServer->nextPendingConnection();
     connect(_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
     connect(_socket, SIGNAL(readyRead()), this, SLOT(read()));
+
+    emit newConnection();
 }
 
 void TcpServer::clientDisconnected()
 {
     _socket->close();
     _socket = nullptr;
+    _connectionState = false;
+
+    emit newConnection();
 }
 
 void TcpServer::read()
 {
-
+    _buffer = _socket->readAll();
+    qDebug() << _buffer.data() << Qt::endl;
+    emit readSignal(_buffer);
 }
 
-void TcpServer::send()
+void TcpServer::send(QString msg)
 {
-
+    _socket->write("hello client");
 }
