@@ -65,6 +65,8 @@ void TcpServer::read()
 
 void TcpServer::send(QString msg)
 {
-    QByteArray buffer = msg.toUtf8();
-    _socket->write(buffer);
+    if(_connectionState){
+        QByteArray buffer = msg.toUtf8();
+        _socket->write(buffer);
+    }
 }

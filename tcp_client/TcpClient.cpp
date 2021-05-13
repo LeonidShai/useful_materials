@@ -20,11 +20,13 @@ void TcpClient::connect2Server(TcpConfig tcpConfig)
 
 void TcpClient::disconnect2Sever()
 {
-
+    _connected = false;
+    _socket->close();
 }
 
 void TcpClient::slotConnected()
 {
+    _connected = true;
     emit signalConnected();
 }
 
@@ -38,7 +40,9 @@ void TcpClient::read()
 
 void TcpClient::send(QString msg)
 {
-    qDebug() << "send" << Qt::endl;
-    QByteArray buffer = msg.toUtf8();
-    _socket->write(buffer);
+    if(_connected){
+        qDebug() << "send" << Qt::endl;
+        QByteArray buffer = msg.toUtf8();
+        _socket->write(buffer);
+    }
 }

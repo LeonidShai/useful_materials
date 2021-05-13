@@ -19,6 +19,7 @@ public:
 private:
     QTcpSocket* _socket;
     QByteArray _buffer;
+    bool _connected;
 
 private slots:
     void slotConnected();
