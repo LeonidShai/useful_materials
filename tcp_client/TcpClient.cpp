@@ -39,5 +39,6 @@ void TcpClient::read()
 void TcpClient::send(QString msg)
 {
     qDebug() << "send" << Qt::endl;
-    _socket->write("hello server");
+    QByteArray buffer = msg.toUtf8();
+    _socket->write(buffer);
 }
