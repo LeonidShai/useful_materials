@@ -2,7 +2,9 @@
 #define TCPSERVER_H
 
 #include <QtNetwork>
+
 #include <TcpConfig.h>
+#include <Data2Send.h>
 
 class TcpServer : public QObject
 {
@@ -15,7 +17,11 @@ public:
     bool stopServer();
 
     bool isConnected();
+
+
+public slots:
     void send(QString msg);
+    void sendData(Data2Send data2Send);
 
 private:
     QTcpServer* _tcpServer;

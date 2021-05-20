@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent):
 
     connect(_taskExecutor, &TaskExecutor::taskStarted, _tcpServer, &TcpServer::send);
     connect(_taskExecutor, &TaskExecutor::taskStopped, _tcpServer, &TcpServer::send);
+    connect(_taskExecutor, SIGNAL(sendData(Data2Send)), _tcpServer, SLOT(sendData(Data2Send)));
 }
 
 MainWindow::~MainWindow()

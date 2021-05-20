@@ -79,3 +79,13 @@ void TcpServer::send(QString msg)
         _socket->write(buffer);
     }
 }
+
+void TcpServer::sendData(Data2Send data2Send)
+{
+    QString msg = data2Send.message() + QString::number(data2Send.num());
+    qDebug() << "TcpServer: sendData - " << msg << Qt::endl;
+    if(_connectionState){
+        QByteArray buffer = msg.toUtf8();
+        _socket->write(buffer);
+    }
+}

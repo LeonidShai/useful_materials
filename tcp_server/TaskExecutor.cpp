@@ -6,7 +6,7 @@ TaskExecutor::TaskExecutor(QObject *parent) :
     QObject(parent),
     _task(false)
 {
-
+    qRegisterMetaType<Data2Send>("Data2Send");
 }
 
 TaskExecutor::~TaskExecutor()
@@ -20,15 +20,18 @@ void TaskExecutor::startTask()
     _task = true;
     QString str("task started!");
     emit taskStarted(str);
+    _data2Send.setMessage("task running, step: ");
 
     int count = 1;
     while(_task){
         qDebug() << "task running, step: " << count << Qt::endl;
-        count++;
+        _data2Send.setNum(count);
 
         QEventLoop loop;
-        QTimer::singleShot(1000, &loop, &QEventLoop::quit);
+        QTimer::singleShot(2000, &loop, &QEventLoop::quit);
         loop.exec();
+        emit sendData(_data2Send);
+        count++;
     }
 }
 
