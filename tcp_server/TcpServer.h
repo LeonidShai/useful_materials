@@ -34,6 +34,8 @@ private slots:
 signals:
     void newConnection();
     void readSignal(QByteArray buffer);
+    void startTask();
+    void stopTask();
 };
 
 #endif // TCPSERVER_H

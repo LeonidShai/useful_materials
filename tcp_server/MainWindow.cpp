@@ -7,16 +7,31 @@ MainWindow::MainWindow(QWidget *parent):
 {
     _ui->setupUi(this);
     _tcpServer = new TcpServer;
+    _taskExecutor = new TaskExecutor;
+
+    _thread = new QThread(this);
+    _taskExecutor->moveToThread(_thread);
+    _thread->start();
 
     _ui->lineEdit_listenAddress->setText("localhost");
     _ui->lineEdit_port->setText("2323");
 
     connect(_tcpServer, SIGNAL(newConnection()), this, SLOT(connectionChanged()));
     connect(_tcpServer, &TcpServer::readSignal, this, &MainWindow::showMessage);
+
+    connect(_tcpServer, &TcpServer::startTask, _taskExecutor, &TaskExecutor::startTask);
+    connect(_tcpServer, &TcpServer::stopTask, _taskExecutor, &TaskExecutor::stopTask);
+
+    connect(_taskExecutor, &TaskExecutor::taskStarted, _tcpServer, &TcpServer::send);
+    connect(_taskExecutor, &TaskExecutor::taskStopped, _tcpServer, &TcpServer::send);
 }
 
 MainWindow::~MainWindow()
 {
+    _thread->terminate();
+    _thread->wait();
+    delete _thread;
+    delete _taskExecutor;
     delete _tcpServer;
     delete _ui;
 }

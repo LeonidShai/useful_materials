@@ -2,7 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QThread>
+
 #include <TcpServer.h>
+#include <TaskExecutor.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -31,6 +34,8 @@ private:
     Ui::MainWindow* _ui;
     TcpServer*      _tcpServer;
     TcpConfig       _tcpConfig;
+    TaskExecutor*   _taskExecutor;
+    QThread*        _thread;
 };
 
 #endif // MAINWINDOW_H

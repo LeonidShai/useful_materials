@@ -61,6 +61,15 @@ void TcpServer::read()
     _buffer = _socket->readAll();
     qDebug() << _buffer.data() << Qt::endl;
     emit readSignal(_buffer);
+
+    QString str = _buffer.data();
+    if(str == "start"){
+        qDebug() << "TcpServer: start task!" << Qt::endl;
+        emit startTask();
+    } else if(str == "stop"){
+        qDebug() << "TcpServer: stop task!" << Qt::endl;
+        emit stopTask();
+    }
 }
 
 void TcpServer::send(QString msg)

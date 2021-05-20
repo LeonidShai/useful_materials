@@ -68,4 +68,5 @@ void MainWindow::on_pushButton_send_clicked()
 {
     QString msg = _ui->lineEdit_msg->text();
     _tcpClient->send(msg);
+    _ui->lineEdit_msg->clear();
 }
