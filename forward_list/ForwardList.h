@@ -11,7 +11,10 @@ public:
 		head = nullptr;
 	}
 
-	~ForwardList(){};
+	~ForwardList()
+	{
+		clear();
+	};
 
 	void push_back(T data)
 	{
@@ -26,6 +29,69 @@ public:
 			current->next = new Node<T>(data);
 		}
 		size++;
+	}
+
+	void insert(T data, int index)
+	{
+		if(index == 0){
+			push_front(data);
+		} else {
+			Node<T>* prev = this->head;
+
+			for(int i = 0; i < index-1; i++){
+				prev = prev->next;
+			}
+
+			Node<T>* newNode = new Node<T>(data, prev->next);
+			prev->next = newNode;
+
+			size++;
+		}
+	}
+
+	void push_front(T data)
+	{
+		head = new Node<T>(data, head);
+		size++;
+	}
+
+	void pop_front()
+	{
+		Node<T>* temp = head;
+
+		head = head->next;
+		delete temp;
+		size--;
+	}
+
+	void removeAt(int index)
+	{
+		if(index == 0){
+			pop_front();
+		} else {
+			Node<T>* prev = this->head;
+			for(int i = 0; i < index-1; i++){
+				prev = prev->next;
+			}
+
+			Node<T>* toDelete = prev->next;
+			prev->next = toDelete->next;
+
+			delete toDelete;
+			size--;
+		}
+	}
+
+	void pop_back()
+	{
+		removeAt(size-1);
+	}
+
+	void clear()
+	{
+		while(size != 0){
+			pop_front();
+		}
 	}
 
 	int getSize() const

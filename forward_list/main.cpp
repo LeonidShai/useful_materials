@@ -23,5 +23,32 @@ int main()
 	for(int i = 0; i < flst.getSize(); i++){
 		cout << "flst[" << i << "]: " << flst[i] << endl;
 	}
+
+	flst.clear();
+	cout << "clear: " << flst.getSize() << endl;
+
+
+	flst.push_front(4);
+	flst.push_back(16);
+	cout << "push back and push front" << endl;
+	for(int i = 0; i < flst.getSize(); i++){
+		cout << "flst[" << i << "]: " << flst[i] << endl;
+	}
+	cout << "clear: " << flst.getSize() << endl;
+
+	flst.insert(7, 1);
+	cout << "insert" << endl;
+	for(int i = 0; i < flst.getSize(); i++){
+		cout << "flst[" << i << "]: " << flst[i] << endl;
+	}
+	cout << "clear: " << flst.getSize() << endl;
+
+	flst.removeAt(0);
+	cout << "remove 0" << endl;
+	for(int i = 0; i < flst.getSize(); i++){
+		cout << "flst[" << i << "]: " << flst[i] << endl;
+	}
+	cout << "clear: " << flst.getSize() << endl;
+
 	return 0;
 }
